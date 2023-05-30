@@ -42,7 +42,7 @@ function Pricing() {
             Native
           </div>
         </div>
-        {screenSize >= 768 ? <Foreigner /> : <MobileForeigner />}
+        {screenSize >= 1024 ? <Foreigner /> : <MobileForeigner />}
       </section>
     </>
   );
