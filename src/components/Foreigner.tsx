@@ -1,11 +1,57 @@
 import drop from "../assets/dropdown-arrow-svgrepo-com.svg";
+import { useState, ChangeEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { State } from "../interface/interface";
 import { setPlanType } from "../store/PricingCardSlice";
+import {
+  setForeignRegularPrice,
+  setForeignPlusPrice,
+  setForeignFlexiPrice,
+} from "../store/PricingCardSlice";
 
 const Foreigner = () => {
   const dispatch = useDispatch();
   const planType = useSelector((state: State) => state.pricingCard.plan);
+  const [duration, setDuration] = useState(60);
+  const [numClasses, setNumClasses] = useState(5);
+
+  const RegularPrice = useSelector(
+    (state: State) => state.pricingCard.foreignRegular
+  );
+  const PlusPrice = useSelector(
+    (state: State) => state.pricingCard.foreignPlus
+  );
+  const FlexiPrice = useSelector(
+    (state: State) => state.pricingCard.foreignFlexi
+  );
+
+  const handleDurationChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newDuration = parseInt(event.target.value);
+    setDuration(newDuration);
+    dispatch(setForeignRegularPrice({ numClasses, duration: newDuration }));
+    dispatch(setForeignPlusPrice({ numClasses, duration: newDuration }));
+    dispatch(setForeignFlexiPrice({ numClasses, duration: newDuration }));
+  };
+
+  const handleNumClassesChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const newNumClasses = parseInt(event.target.value);
+    setNumClasses(newNumClasses);
+    dispatch(setForeignRegularPrice({ numClasses: newNumClasses, duration }));
+    dispatch(setForeignPlusPrice({ numClasses: newNumClasses, duration }));
+    dispatch(setForeignFlexiPrice({ numClasses: newNumClasses, duration }));
+  };
+
+  const pricePerClass = (price: number) => {
+    return (price / numClasses).toFixed(2);
+  };
+
+  const oldPrice = (price: number) => {
+    const pricePerClassValue = parseFloat(pricePerClass(price));
+    return ((pricePerClassValue * 40) / 100 + pricePerClassValue).toFixed(2);
+  };
+  const oldTotalPrice = (price: number) => {
+    return ((price * 40) / 100 + price).toFixed(2);
+  };
   return (
     <>
       <div className="mt-[3rem]">
@@ -38,10 +84,14 @@ const Foreigner = () => {
           </div>
           <div className="w-[20rem] relative">
             <p className="text-sm pb-[1rem] text-[#9F9F9F]">Class duration</p>
-            <select className="bg-white relative outline-none appearance-none justify-between rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-[20rem] gap-[0.5rem]">
-              <option value={60}>60 minutes</option>
+            <select
+              value={duration}
+              onChange={handleDurationChange}
+              className="bg-white relative outline-none appearance-none justify-between rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-[20rem] gap-[0.5rem]"
+            >
               <option value={25}>25 minutes</option>
               <option value={45}>45 minutes</option>
+              <option value={60}>60 minutes</option>
               <option value={90}>90 minutes</option>
             </select>
             <img
@@ -52,7 +102,11 @@ const Foreigner = () => {
           </div>
           <div className="w-[20rem] relative">
             <p className="text-sm pb-[1rem] text-[#9F9F9F]">Number classes</p>
-            <select className="flex relative bg-white outline-none appearance-none justify-between rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-[20rem] gap-[0.5rem]">
+            <select
+              value={numClasses}
+              onChange={handleNumClassesChange}
+              className="flex relative bg-white outline-none appearance-none justify-between rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-[20rem] gap-[0.5rem]"
+            >
               <option value={5}>5 classes</option>
               <option value={10}>10 classes</option>
               <option value={20}>20 classes</option>
@@ -104,13 +158,16 @@ const Foreigner = () => {
             <h1 className="font-[700] text-[2.1rem]">Regular</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
             <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
-              <p className="line-through text-gray-500">1600 ¥ </p>
+              <p className="line-through text-gray-500">
+                {" "}
+                {oldPrice(RegularPrice)} ¥{" "}
+              </p>
               <p className="border-2 rounded-full px-[0.5rem] border-black">
                 -40%
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              960 ¥
+              {pricePerClass(RegularPrice)} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[2.3rem]">
@@ -123,8 +180,11 @@ const Foreigner = () => {
             </div>
             <div className="bg-[#f3f3f3] py-[1.5rem] font-medium">
               <div className="flex justify-center gap-[1rem]">
-                <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
-                <p>76 800 ¥</p>
+                <p className="text-[#b9b9b9] line-through ">
+                  {" "}
+                  {oldTotalPrice(RegularPrice)} ¥
+                </p>
+                <p> {RegularPrice} ¥</p>
               </div>
             </div>
             <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">
@@ -137,13 +197,15 @@ const Foreigner = () => {
             <h1 className="font-[700] text-[2.1rem]">Plus</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
             <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
-              <p className="line-through text-gray-500">1600 ¥ </p>
+              <p className="line-through text-gray-500">
+                {oldPrice(PlusPrice)} ¥
+              </p>
               <p className="border-2 rounded-full px-[0.5rem] border-black">
                 -40%
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              960 ¥
+              {pricePerClass(PlusPrice)} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[2.3rem]">
@@ -156,8 +218,11 @@ const Foreigner = () => {
             </div>
             <div className="bg-[#f3f3f3] py-[1.5rem] font-medium">
               <div className="flex justify-center gap-[1rem]">
-                <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
-                <p>76 800 ¥</p>
+                <p className="text-[#b9b9b9] line-through ">
+                  {" "}
+                  {oldTotalPrice(PlusPrice)} ¥
+                </p>
+                <p> {PlusPrice} ¥</p>
               </div>
             </div>
             <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">
@@ -170,13 +235,15 @@ const Foreigner = () => {
             <h1 className="font-[700] text-[2.1rem]">Flexi</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
             <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
-              <p className="line-through text-gray-500">1600 ¥ </p>
+              <p className="line-through text-gray-500">
+                {oldPrice(FlexiPrice)} ¥{" "}
+              </p>
               <p className="border-2 rounded-full px-[0.5rem] border-black">
                 -40%
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              960 ¥
+              {pricePerClass(FlexiPrice)} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[2.3rem]">
@@ -189,8 +256,10 @@ const Foreigner = () => {
             </div>
             <div className="bg-[#f3f3f3] py-[1.5rem] font-medium">
               <div className="flex justify-center gap-[1rem]">
-                <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
-                <p>76 800 ¥</p>
+                <p className="text-[#b9b9b9] line-through ">
+                  {oldTotalPrice(FlexiPrice)} ¥
+                </p>
+                <p>{FlexiPrice} ¥</p>
               </div>
             </div>
             <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">

@@ -13,9 +13,8 @@ const MobileForeigner = () => {
   const dispatch = useDispatch();
   const [duration, setDuration] = useState(60);
   const [numClasses, setNumClasses] = useState(5);
-  console.log(duration, numClasses);
 
-  const ForeignPrice = useSelector(
+  const RegularPrice = useSelector(
     (state: State) => state.pricingCard.foreignRegular
   );
   const PlusPrice = useSelector(
@@ -26,19 +25,32 @@ const MobileForeigner = () => {
   );
 
   const handleDurationChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setDuration(parseInt(event.target.value));
-    dispatch(setForeignRegularPrice({ numClasses, duration }));
-    dispatch(setForeignPlusPrice({ numClasses, duration }));
-    dispatch(setForeignFlexiPrice({ numClasses, duration }));
+    const newDuration = parseInt(event.target.value);
+    setDuration(newDuration);
+    dispatch(setForeignRegularPrice({ numClasses, duration: newDuration }));
+    dispatch(setForeignPlusPrice({ numClasses, duration: newDuration }));
+    dispatch(setForeignFlexiPrice({ numClasses, duration: newDuration }));
   };
 
   const handleNumClassesChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setNumClasses(parseInt(event.target.value));
-    dispatch(setForeignRegularPrice({ numClasses, duration }));
-    dispatch(setForeignPlusPrice({ numClasses, duration }));
-    dispatch(setForeignFlexiPrice({ numClasses, duration }));
+    const newNumClasses = parseInt(event.target.value);
+    setNumClasses(newNumClasses);
+    dispatch(setForeignRegularPrice({ numClasses: newNumClasses, duration }));
+    dispatch(setForeignPlusPrice({ numClasses: newNumClasses, duration }));
+    dispatch(setForeignFlexiPrice({ numClasses: newNumClasses, duration }));
   };
 
+  const pricePerClass = (price: number) => {
+    return (price / numClasses).toFixed(2);
+  };
+
+  const oldPrice = (price: number) => {
+    const pricePerClassValue = parseFloat(pricePerClass(price));
+    return ((pricePerClassValue * 40) / 100 + pricePerClassValue).toFixed(2);
+  };
+  const oldTotalPrice = (price: number) => {
+    return ((price * 40) / 100 + price).toFixed(2);
+  };
   return (
     <div className="mt-[1.5rem]">
       <div className="flex gap-[0.5rem] justify-center">
@@ -76,13 +88,16 @@ const MobileForeigner = () => {
             <h1 className="font-[700] text-[2.1rem]">Regular</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
             <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
-              <p className="line-through text-gray-500">1600 ¥ </p>
+              <p className="line-through text-gray-500">
+                {" "}
+                {oldPrice(RegularPrice)} ¥{" "}
+              </p>
               <p className="border-2 rounded-full px-[0.5rem] border-black">
                 -40%
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              {ForeignPrice} ¥
+              {pricePerClass(RegularPrice)} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -106,8 +121,11 @@ const MobileForeigner = () => {
             <div className="bg-[#f3f3f3] py-[0.8rem] font-medium">
               <p>Total cost:</p>
               <div className="flex justify-center gap-[0.5rem]">
-                <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
-                <p>76 800 ¥</p>
+                <p className="text-[#b9b9b9] line-through ">
+                  {" "}
+                  {oldTotalPrice(RegularPrice)} ¥
+                </p>
+                <p>{RegularPrice.toFixed(2)} ¥</p>
               </div>
             </div>
             <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">
@@ -118,13 +136,16 @@ const MobileForeigner = () => {
             <h1 className="font-[700] text-[2.1rem]">Regular</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
             <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
-              <p className="line-through text-gray-500">1600 ¥ </p>
+              <p className="line-through text-gray-500">
+                {" "}
+                {oldPrice(RegularPrice)} ¥{" "}
+              </p>
               <p className="border-2 rounded-full px-[0.5rem] border-black">
                 -40%
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              {ForeignPrice} ¥
+              {pricePerClass(RegularPrice)} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -137,8 +158,11 @@ const MobileForeigner = () => {
             </div>
             <div className="bg-[#f3f3f3] py-[1.5rem] font-medium">
               <div className="flex justify-center gap-[1rem]">
-                <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
-                <p>76 800 ¥</p>
+                <p className="text-[#b9b9b9] line-through ">
+                  {" "}
+                  {oldTotalPrice(RegularPrice)} ¥
+                </p>
+                <p>{RegularPrice.toFixed(2)} ¥</p>
               </div>
             </div>
             <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">
@@ -151,13 +175,15 @@ const MobileForeigner = () => {
             <h1 className="font-[700] text-[2.1rem]">Plus</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
             <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
-              <p className="line-through text-gray-500">1600 ¥ </p>
+              <p className="line-through text-gray-500">
+                {oldPrice(PlusPrice)} ¥{" "}
+              </p>
               <p className="border-2 rounded-full px-[0.5rem] border-black">
                 -40%
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              {PlusPrice} ¥
+              {pricePerClass(PlusPrice)} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -173,8 +199,10 @@ const MobileForeigner = () => {
             <div className="bg-[#f3f3f3] py-[0.8rem] font-medium">
               <p>Total cost:</p>
               <div className="flex justify-center gap-[0.5rem]">
-                <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
-                <p>76 800 ¥</p>
+                <p className="text-[#b9b9b9] line-through ">
+                  {oldTotalPrice(PlusPrice)} ¥
+                </p>
+                <p>{PlusPrice.toFixed(2)} ¥</p>
               </div>
             </div>
             <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">
@@ -185,13 +213,16 @@ const MobileForeigner = () => {
             <h1 className="font-[700] text-[2.1rem]">Plus</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
             <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
-              <p className="line-through text-gray-500">1600 ¥ </p>
+              <p className="line-through text-gray-500">
+                {" "}
+                {oldPrice(PlusPrice)} ¥
+              </p>
               <p className="border-2 rounded-full px-[0.5rem] border-black">
                 -40%
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              {PlusPrice} ¥
+              {pricePerClass(PlusPrice)} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -208,8 +239,11 @@ const MobileForeigner = () => {
             </div>
             <div className="bg-[#f3f3f3] py-[1.5rem] font-medium">
               <div className="flex justify-center gap-[1rem]">
-                <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
-                <p>76 800 ¥</p>
+                <p className="text-[#b9b9b9] line-through ">
+                  {" "}
+                  {oldTotalPrice(PlusPrice)} ¥
+                </p>
+                <p>{PlusPrice.toFixed(2)} ¥</p>
               </div>
             </div>
             <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">
@@ -222,13 +256,16 @@ const MobileForeigner = () => {
             <h1 className="font-[700] text-[2.1rem]">Flexi</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
             <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
-              <p className="line-through text-gray-500">1600 ¥ </p>
+              <p className="line-through text-gray-500">
+                {" "}
+                {oldPrice(FlexiPrice)} ¥
+              </p>
               <p className="border-2 rounded-full px-[0.5rem] border-black">
                 -40%
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              {FlexiPrice} ¥
+              {pricePerClass(FlexiPrice)} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -242,8 +279,11 @@ const MobileForeigner = () => {
             <div className="bg-[#f3f3f3] py-[0.8rem] font-medium">
               <p>Total cost:</p>
               <div className="flex justify-center gap-[0.5rem]">
-                <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
-                <p>76 800 ¥</p>
+                <p className="text-[#b9b9b9] line-through ">
+                  {" "}
+                  {oldTotalPrice(FlexiPrice)} ¥
+                </p>
+                <p>{FlexiPrice.toFixed(2)} ¥</p>
               </div>
             </div>
             <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">
@@ -254,13 +294,16 @@ const MobileForeigner = () => {
             <h1 className="font-[700] text-[2.1rem]">Flexi</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
             <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
-              <p className="line-through text-gray-500">1600 ¥ </p>
+              <p className="line-through text-gray-500">
+                {" "}
+                {oldPrice(FlexiPrice)} ¥{" "}
+              </p>
               <p className="border-2 rounded-full px-[0.5rem] border-black">
                 -40%
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              {FlexiPrice} ¥
+              {pricePerClass(FlexiPrice)} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -279,8 +322,11 @@ const MobileForeigner = () => {
             </div>
             <div className="bg-[#f3f3f3] py-[1.5rem] font-medium">
               <div className="flex justify-center gap-[1rem]">
-                <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
-                <p>76 800 ¥</p>
+                <p className="text-[#b9b9b9] line-through ">
+                  {" "}
+                  {oldTotalPrice(FlexiPrice)} ¥
+                </p>
+                <p>{FlexiPrice.toFixed(2)} ¥</p>
               </div>
             </div>
             <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">
