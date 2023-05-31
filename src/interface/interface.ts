@@ -1,4 +1,4 @@
-import store from "../store/store";
+import { store } from "../store/store";
 
 export interface Lesson {
   nbLessons: number;
@@ -22,6 +22,10 @@ export interface RootState {
   foreignRegular: number;
   foreignPlus: number;
   foreignFlexi: number;
+  native5: number;
+  native10: number;
+  native20: number;
+  native40: number;
 }
 
 export type State = ReturnType<typeof store.getState>;

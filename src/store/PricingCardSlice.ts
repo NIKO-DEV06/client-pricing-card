@@ -25,6 +25,10 @@ const initialState: RootState = {
   foreignRegular: 1000,
   foreignPlus: 1200,
   foreignFlexi: 1400,
+  native5: 750,
+  native10: 1300,
+  native20: 2600,
+  native40: 5000,
 };
 
 const pricingCardSlice = createSlice({
@@ -77,6 +81,58 @@ const pricingCardSlice = createSlice({
       );
       state.foreignFlexi = price?.price.primary ?? 1400;
     },
+    setNativePrice5: (
+      state,
+      action: PayloadAction<{ numClasses: number; duration: number }>
+    ) => {
+      const { duration } = action.payload;
+      const price = state.lessonState.find(
+        (lesson) =>
+          lesson.type === "NATIVE" &&
+          lesson.nbLessons === 5 &&
+          lesson.duration === duration
+      );
+      state.native5 = price?.price.primary ?? 1400;
+    },
+    setNativePrice10: (
+      state,
+      action: PayloadAction<{ numClasses: number; duration: number }>
+    ) => {
+      const { duration } = action.payload;
+      const price = state.lessonState.find(
+        (lesson) =>
+          lesson.type === "NATIVE" &&
+          lesson.nbLessons === 10 &&
+          lesson.duration === duration
+      );
+      state.native10 = price?.price.primary ?? 1400;
+    },
+    setNativePrice20: (
+      state,
+      action: PayloadAction<{ numClasses: number; duration: number }>
+    ) => {
+      const { duration } = action.payload;
+      const price = state.lessonState.find(
+        (lesson) =>
+          lesson.type === "NATIVE" &&
+          lesson.nbLessons === 20 &&
+          lesson.duration === duration
+      );
+      state.native20 = price?.price.primary ?? 1400;
+    },
+    setNativePrice40: (
+      state,
+      action: PayloadAction<{ numClasses: number; duration: number }>
+    ) => {
+      const { duration } = action.payload;
+      const price = state.lessonState.find(
+        (lesson) =>
+          lesson.type === "NATIVE" &&
+          lesson.nbLessons === 40 &&
+          lesson.duration === duration
+      );
+      state.native40 = price?.price.primary ?? 1400;
+    },
   },
 });
 
@@ -85,6 +141,10 @@ export const {
   setForeignRegularPrice,
   setForeignPlusPrice,
   setForeignFlexiPrice,
+  setNativePrice5,
+  setNativePrice10,
+  setNativePrice20,
+  setNativePrice40,
 } = pricingCardSlice.actions;
 
 export default pricingCardSlice.reducer;
