@@ -1,25 +1,55 @@
+import { useState, ChangeEvent } from "react";
 import { motion } from "framer-motion";
 import drop from "../assets/dropdown-arrow-svgrepo-com.svg";
+import { useSelector, useDispatch } from "react-redux";
+import { State } from "../interface/interface";
+import { setForeignRegularPrice } from "../store/PricingCardSlice";
 
 const MobileForeigner = () => {
+  const dispatch = useDispatch();
+  const [duration, setDuration] = useState(60);
+  const [numClasses, setNumClasses] = useState(5);
+
+  const regularForeignPrice = useSelector(
+    (state: State) => state.pricingCard.foreignRegular
+  );
+
+  const handleDurationChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setDuration(parseInt(event.target.value));
+    dispatch(setForeignRegularPrice({ numClasses, duration }));
+  };
+
+  const handleNumClassesChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setNumClasses(parseInt(event.target.value));
+    dispatch(setForeignRegularPrice({ numClasses, duration }));
+  };
+
   return (
     <div className="mt-[1.5rem]">
       <div className="flex gap-[0.5rem] justify-center">
         <div className="flex bg-white justify-center rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-[10rem] gap-[0.5rem]">
-          <select className="bg-white outline-none appearance-none">
-            <option value="">60 minutes</option>
-            <option value="option1">45 minutes</option>
-            <option value="option2">45 minutes</option>
-            <option value="option3">45 minutes</option>
+          <select
+            value={duration}
+            onChange={handleDurationChange}
+            className="bg-white outline-none appearance-none"
+          >
+            <option value={25}>25 minutes</option>
+            <option value={45}>45 minutes</option>
+            <option value={60}>60 minutes</option>
+            <option value={90}>90 minutes</option>
           </select>
           <img src={drop} alt="drop" className="h-[1.5rem] w-[1.5rem]" />
         </div>
         <div className="flex bg-white justify-center rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-[10rem] gap-[0.5rem]">
-          <select className="bg-white outline-none appearance-none">
-            <option value="">5 classes</option>
-            <option value="option1">80 classes</option>
-            <option value="option2">80 classes</option>
-            <option value="option3">80 classes</option>
+          <select
+            value={numClasses}
+            onChange={handleNumClassesChange}
+            className="bg-white outline-none appearance-none"
+          >
+            <option value={5}>5 classes</option>
+            <option value={10}>10 classes</option>
+            <option value={20}>20 classes</option>
+            <option value={40}>40 classes</option>
           </select>
           <img src={drop} alt="drop" className="h-[1.5rem] w-[1.5rem]" />
         </div>
@@ -37,7 +67,7 @@ const MobileForeigner = () => {
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              960 ¥
+              {regularForeignPrice} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -79,7 +109,7 @@ const MobileForeigner = () => {
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              960 ¥
+              {regularForeignPrice} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">

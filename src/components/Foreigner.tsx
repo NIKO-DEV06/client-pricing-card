@@ -39,10 +39,10 @@ const Foreigner = () => {
           <div className="w-[20rem] relative">
             <p className="text-sm pb-[1rem] text-[#9F9F9F]">Class duration</p>
             <select className="bg-white relative outline-none appearance-none justify-between rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-[20rem] gap-[0.5rem]">
-              <option value="">60 minutes</option>
-              <option value="option1">45 minutes</option>
-              <option value="option2">45 minutes</option>
-              <option value="option3">45 minutes</option>
+              <option value={60}>60 minutes</option>
+              <option value={25}>25 minutes</option>
+              <option value={45}>45 minutes</option>
+              <option value={90}>90 minutes</option>
             </select>
             <img
               src={drop}
@@ -53,10 +53,10 @@ const Foreigner = () => {
           <div className="w-[20rem] relative">
             <p className="text-sm pb-[1rem] text-[#9F9F9F]">Number classes</p>
             <select className="flex relative bg-white outline-none appearance-none justify-between rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-[20rem] gap-[0.5rem]">
-              <option value="">5 classes</option>
-              <option value="option1">80 classes</option>
-              <option value="option2">80 classes</option>
-              <option value="option3">80 classes</option>
+              <option value={5}>5 classes</option>
+              <option value={10}>10 classes</option>
+              <option value={20}>20 classes</option>
+              <option value={40}>40 classes</option>
             </select>
             <img
               src={drop}

@@ -35,11 +35,11 @@ const Native = () => {
             Native
           </div>
         </div>{" "}
-        <p className="text-sm pb-[1rem] mt-[1rem] text-[#9F9F9F]">
+        <p className="hidden lg:inline-block  text-sm pb-[1rem] mt-[1rem] text-[#9F9F9F]">
           Class duration
         </p>
-        <div className="flex gap-[0.5rem] relative w-full">
-          <select className="flex outline-none appearance-none bg-white justify-between rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-full gap-[0.5rem]">
+        <div className="flex gap-[0.5rem] mt-[1.5rem] lg:mt-0 mx-auto lg:mx-0 relative w-[10rem] lg:w-full">
+          <select className="flex outline-none appearance-none bg-white justify-center lg:justify-between rounded-xl shadow-input-shadow px-[1.5rem] py-[0.8rem] items-center w-[20rem] lg:w-full gap-[0.5rem]">
             <option value="">25 minutes</option>
             <option value="option1">45 minutes</option>
             <option value="option2">45 minutes</option>
@@ -53,7 +53,7 @@ const Native = () => {
         </div>
       </div>
       <div className="overflow-x-auto lg:overflow-visible lg:overflow-x-scroll">
-        <div className="mt-[1rem] pl-[2.5rem] w-[63rem]">
+        <div className="mt-[1rem] pl-[2.5rem] w-[83rem]">
           <div className="flex gap-[1rem] px-[1rem] py-[1rem]">
             <div className="bg-white w-[20rem] text-center pt-[2rem] pb-[2rem] rounded-xl shadow-input-shadow">
               <h1 className="font-[700] text-[2.1rem]">5 Classes</h1>
@@ -81,7 +81,7 @@ const Native = () => {
             </div>
 
             <div className="bg-white w-[20rem] text-center pt-[2rem] pb-[2rem] rounded-xl shadow-input-shadow">
-              <h1 className="font-[700] text-[2.1rem]">5 Classes</h1>
+              <h1 className="font-[700] text-[2.1rem]">10 Classes</h1>
               <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
               <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
                 <p className="line-through text-gray-500">1600 ¥ </p>
@@ -106,7 +106,32 @@ const Native = () => {
             </div>
 
             <div className="bg-white w-[20rem] text-center pt-[2rem] pb-[2rem] rounded-xl shadow-input-shadow">
-              <h1 className="font-[700] text-[2.1rem]">5 Classes</h1>
+              <h1 className="font-[700] text-[2.1rem]">20 Classes</h1>
+              <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
+              <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
+                <p className="line-through text-gray-500">1600 ¥ </p>
+                <p className="border-2 rounded-full px-[0.5rem] border-black">
+                  -40%
+                </p>
+              </div>
+              <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
+                960 ¥
+              </h1>
+              <p>per class</p>
+
+              <div className="bg-[#f3f3f3] py-[1rem] font-medium mt-[1.5rem]">
+                <div className="flex justify-center gap-[0.5rem]">
+                  <p className="text-[#b9b9b9] line-through ">128 000 ¥</p>
+                  <p>76 800 ¥</p>
+                </div>
+              </div>
+              <button className="bg-[#FFAC01] mt-[2rem] font-semibold text-[1.3rem] px-[4rem] py-[0.8rem] rounded-full">
+                Proceed
+              </button>
+            </div>
+
+            <div className="bg-white w-[20rem] text-center pt-[2rem] pb-[2rem] rounded-xl shadow-input-shadow">
+              <h1 className="font-[700] text-[2.1rem]">40 Classes</h1>
               <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
               <div className="flex justify-center mt-[2.5rem] gap-[1rem] items-center">
                 <p className="line-through text-gray-500">1600 ¥ </p>

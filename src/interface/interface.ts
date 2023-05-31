@@ -19,6 +19,9 @@ export interface Lesson {
 export interface RootState {
   lessonState: Lesson[];
   plan: string;
+  foreignRegular: number;
+  foreignPlus: number;
+  foreignFlexi: number;
 }
 
 export type State = ReturnType<typeof store.getState>;

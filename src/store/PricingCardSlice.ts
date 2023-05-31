@@ -22,6 +22,9 @@ const initailLessonsState: Lesson[] = data.map((lesson) => {
 const initialState: RootState = {
   lessonState: initailLessonsState,
   plan: "foreigner",
+  foreignRegular: 1000,
+  foreignPlus: 0,
+  foreignFlexi: 0,
 };
 
 const pricingCardSlice = createSlice({
@@ -31,9 +34,25 @@ const pricingCardSlice = createSlice({
     setPlanType: (state, action: PayloadAction<string>) => {
       state.plan = action.payload;
     },
+    setForeignRegularPrice: (
+      state,
+      action: PayloadAction<{ numClasses: number; duration: number }>
+    ) => {
+      const { numClasses, duration } = action.payload;
+      const price = state.lessonState.find(
+        (lesson) =>
+          lesson.plan === "REGULAR" &&
+          lesson.type === "FOREIGNER" &&
+          lesson.nbLessons === numClasses &&
+          lesson.duration === duration
+      );
+      state.foreignRegular = price?.price.primary ?? 1000;
+    },
+    foreignPlusPrice: () => {},
+    foreignFlexiPrice: () => {},
   },
 });
 
-export const { setPlanType } = pricingCardSlice.actions;
+export const { setPlanType, setForeignRegularPrice } = pricingCardSlice.actions;
 
 export default pricingCardSlice.reducer;
