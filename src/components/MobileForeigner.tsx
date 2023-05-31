@@ -1,18 +1,7 @@
 import { motion } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
 import drop from "../assets/dropdown-arrow-svgrepo-com.svg";
 
 const MobileForeigner = () => {
-  const [width, setWidth] = useState<number>(0);
-  const caurousel = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const scrollWidth = caurousel.current?.scrollWidth;
-    const offsetWidth = caurousel.current?.offsetWidth;
-
-    if (scrollWidth !== undefined && offsetWidth !== undefined) {
-      setWidth(scrollWidth - offsetWidth);
-    }
-  }, []);
   return (
     <div className="mt-[1.5rem]">
       <div className="flex gap-[0.5rem] justify-center">
@@ -36,12 +25,8 @@ const MobileForeigner = () => {
         </div>
       </div>
       {/* -----CARDS----- */}
-      <motion.div ref={caurousel} className="overflowhidden">
-        <motion.div
-          drag="x"
-          dragConstraints={{ right: 0, left: -width + 50 }}
-          className="cursor-grab mt-[1.5rem] flex gap-[1rem] w-[125.5rem] pr-[2rem]"
-        >
+      <motion.div className=" pl-[2rem] overflow-x-auto">
+        <motion.div className="mt-[1.5rem] flex gap-[1rem] w-[125.5rem] px-[1rem] py-[1rem]">
           <motion.div className="bg-white w-[24rem] text-center pt-[2rem] pb-[2rem] rounded-xl shadow-input-shadow">
             <h1 className="font-[700] text-[2.1rem]">Regular</h1>
             <hr className="border-dashed border-[#CE4A37] w-[9rem] mx-auto" />
