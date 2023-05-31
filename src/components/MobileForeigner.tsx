@@ -3,25 +3,40 @@ import { motion } from "framer-motion";
 import drop from "../assets/dropdown-arrow-svgrepo-com.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { State } from "../interface/interface";
-import { setForeignRegularPrice } from "../store/PricingCardSlice";
+import {
+  setForeignRegularPrice,
+  setForeignPlusPrice,
+  setForeignFlexiPrice,
+} from "../store/PricingCardSlice";
 
 const MobileForeigner = () => {
   const dispatch = useDispatch();
   const [duration, setDuration] = useState(60);
   const [numClasses, setNumClasses] = useState(5);
+  console.log(duration, numClasses);
 
-  const regularForeignPrice = useSelector(
+  const ForeignPrice = useSelector(
     (state: State) => state.pricingCard.foreignRegular
+  );
+  const PlusPrice = useSelector(
+    (state: State) => state.pricingCard.foreignPlus
+  );
+  const FlexiPrice = useSelector(
+    (state: State) => state.pricingCard.foreignFlexi
   );
 
   const handleDurationChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setDuration(parseInt(event.target.value));
     dispatch(setForeignRegularPrice({ numClasses, duration }));
+    dispatch(setForeignPlusPrice({ numClasses, duration }));
+    dispatch(setForeignFlexiPrice({ numClasses, duration }));
   };
 
   const handleNumClassesChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setNumClasses(parseInt(event.target.value));
     dispatch(setForeignRegularPrice({ numClasses, duration }));
+    dispatch(setForeignPlusPrice({ numClasses, duration }));
+    dispatch(setForeignFlexiPrice({ numClasses, duration }));
   };
 
   return (
@@ -67,7 +82,7 @@ const MobileForeigner = () => {
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              {regularForeignPrice} ¥
+              {ForeignPrice} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -109,7 +124,7 @@ const MobileForeigner = () => {
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              {regularForeignPrice} ¥
+              {ForeignPrice} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -142,7 +157,7 @@ const MobileForeigner = () => {
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              960 ¥
+              {PlusPrice} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -176,7 +191,7 @@ const MobileForeigner = () => {
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              960 ¥
+              {PlusPrice} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -213,7 +228,7 @@ const MobileForeigner = () => {
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              960 ¥
+              {FlexiPrice} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">
@@ -245,7 +260,7 @@ const MobileForeigner = () => {
               </p>
             </div>
             <h1 className="text-[#ce4a37] font-[800] text-[3.5rem] pt-[0.5rem]">
-              960 ¥
+              {FlexiPrice} ¥
             </h1>
             <p>per class</p>
             <div className="mt-[3rem]">

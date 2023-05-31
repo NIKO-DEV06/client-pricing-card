@@ -23,8 +23,8 @@ const initialState: RootState = {
   lessonState: initailLessonsState,
   plan: "foreigner",
   foreignRegular: 1000,
-  foreignPlus: 0,
-  foreignFlexi: 0,
+  foreignPlus: 1200,
+  foreignFlexi: 1400,
 };
 
 const pricingCardSlice = createSlice({
@@ -47,12 +47,44 @@ const pricingCardSlice = createSlice({
           lesson.duration === duration
       );
       state.foreignRegular = price?.price.primary ?? 1000;
+      console.log(price?.price.primary);
     },
-    foreignPlusPrice: () => {},
-    foreignFlexiPrice: () => {},
+    setForeignPlusPrice: (
+      state,
+      action: PayloadAction<{ numClasses: number; duration: number }>
+    ) => {
+      const { numClasses, duration } = action.payload;
+      const price = state.lessonState.find(
+        (lesson) =>
+          lesson.plan === "PLUS" &&
+          lesson.type === "FOREIGNER" &&
+          lesson.nbLessons === numClasses &&
+          lesson.duration === duration
+      );
+      state.foreignPlus = price?.price.primary ?? 1200;
+    },
+    setForeignFlexiPrice: (
+      state,
+      action: PayloadAction<{ numClasses: number; duration: number }>
+    ) => {
+      const { numClasses, duration } = action.payload;
+      const price = state.lessonState.find(
+        (lesson) =>
+          lesson.plan === "FLEXI" &&
+          lesson.type === "FOREIGNER" &&
+          lesson.nbLessons === numClasses &&
+          lesson.duration === duration
+      );
+      state.foreignFlexi = price?.price.primary ?? 1400;
+    },
   },
 });
 
-export const { setPlanType, setForeignRegularPrice } = pricingCardSlice.actions;
+export const {
+  setPlanType,
+  setForeignRegularPrice,
+  setForeignPlusPrice,
+  setForeignFlexiPrice,
+} = pricingCardSlice.actions;
 
 export default pricingCardSlice.reducer;
